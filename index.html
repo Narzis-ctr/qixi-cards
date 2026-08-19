@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萌萌牌 · 七夕剃须刀甄选目录</title>
+<link rel="stylesheet" href="fonts/lxgwwenkai.css">
+<style>
+  :root {
+    --paper: #faf5ec;
+    --ink: #4a3f35;
+    --ink-light: #8a7d6f;
+    --accent: #c95d63;
+    --card-w: 300px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(201,93,99,0.06), transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(122,158,159,0.08), transparent 50%),
+      var(--paper);
+    color: var(--ink);
+    font-family: "LXGW WenKai Screen", "Hannotate SC", "Xingkai SC", "STKaiti", "KaiTi", serif;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 56px 20px 8px;
+  }
+  header .date {
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--ink-light);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: clamp(26px, 5.5vw, 40px);
+    letter-spacing: 3px;
+    font-weight: 600;
+  }
+  header h1 span { color: var(--accent); }
+  header .sub {
+    margin-top: 14px;
+    font-size: 16px;
+    color: var(--ink-light);
+    letter-spacing: 1px;
+  }
+  .hint {
+    display: inline-block;
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--accent);
+    border: 1px dashed var(--accent);
+    border-radius: 999px;
+    padding: 6px 18px;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--card-w), 100%), 1fr));
+    gap: 44px 30px;
+    max-width: 1080px;
+    margin: 48px auto 0;
+    padding: 0 22px;
+  }
+
+  .card {
+    perspective: 1200px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+  /* 手账感：每张拍立得歪一点点 */
+  .card:nth-child(odd)  { transform: rotate(-1.6deg); }
+  .card:nth-child(even) { transform: rotate(1.4deg); }
+  .card:nth-child(3n)   { transform: rotate(-0.6deg); }
+  .card:hover { z-index: 2; }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+  .card.flipped .card-inner { transform: rotateY(180deg); }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px;
+    box-shadow: 0 6px 18px rgba(74, 63, 53, 0.18);
+  }
+
+  /* 正面：拍立得 */
+  .front {
+    background: #fffdf8;
+    padding: 12px 12px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .front .photo {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    background: #eee6da;
+  }
+  .front .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .front .caption {
+    height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 4px 4px 10px;
+  }
+  .front .caption .title {
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
+  .front .caption .title .no {
+    color: var(--accent);
+    font-size: 13px;
+    margin-right: 6px;
+  }
+  .badges { display: flex; flex-wrap: wrap; gap: 5px; }
+  .badge {
+    font-size: 11px;
+    line-height: 1;
+    padding: 4px 7px;
+    border-radius: 999px;
+    background: rgba(201, 93, 99, 0.1);
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+  .badge.alt { background: rgba(122, 158, 159, 0.16); color: #557a7b; }
+
+  /* 和纸胶带 */
+  .tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 96px;
+    height: 26px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: rgba(201, 93, 99, 0.45);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    z-index: 3;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .card:nth-child(2n) .tape { background: rgba(122, 158, 159, 0.5); transform: translateX(-50%) rotate(2.5deg); }
+  .card:nth-child(3n) .tape { background: rgba(212, 165, 90, 0.5); }
+
+  /* 背面：照片背后的手写留言 */
+  .back {
+    transform: rotateY(180deg);
+    background:
+      repeating-linear-gradient(transparent, transparent 27px, rgba(74,63,53,0.12) 28px),
+      #fbf7ee;
+    padding: 22px 20px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .back .stamp {
+    align-self: flex-end;
+    font-size: 12px;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    border-radius: 3px;
+    padding: 3px 8px;
+    transform: rotate(6deg);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .back .text {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 15.5px;
+    line-height: 28px;
+    letter-spacing: 0.5px;
+    scrollbar-width: thin;
+  }
+  .back .flip-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-light);
+    padding-top: 8px;
+  }
+
+  /* 页尾互动 */
+  .vote {
+    max-width: 680px;
+    margin: 90px auto 0;
+    padding: 0 22px;
+    text-align: center;
+  }
+  .vote h2 {
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .vote p { color: var(--ink-light); font-size: 15px; }
+  .vote-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .vote-options button {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: #fffdf8;
+    border: 1px solid rgba(74,63,53,0.25);
+    border-radius: 999px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .vote-options button:hover { border-color: var(--accent); color: var(--accent); }
+  .vote-options button.picked {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .vote-reply {
+    margin-top: 28px;
+    min-height: 60px;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.5s;
+  }
+  .vote-reply.show { opacity: 1; transform: translateY(0); }
+  .vote-shot {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-light);
+    letter-spacing: 0.5px;
+  }
+  .vote-options button.special {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(201, 93, 99, 0.06);
+  }
+  .vote-options button.special.picked { color: #fff; background: var(--accent); }
+
+  footer {
+    text-align: center;
+    margin-top: 70px;
+    color: var(--ink-light);
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+  footer .heart { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="date">2026 · 七夕特辑</div>
+  <h1>萌萌牌 <span>·</span> 剃须刀甄选目录</h1>
+  <div class="hint">点击卡片翻面，查看萌萌锐评</div>
+</header>
+
+<main class="grid" id="grid"></main>
+
+<section class="vote">
+  <h2>终极一问</h2>
+  <p>请选出你的心动嘉宾</p>
+  <div class="vote-options" id="voteOptions"></div>
+  <div class="vote-reply" id="voteReply"></div>
+</section>
+
+<footer>
+  from 萌萌 <span class="heart">♥</span> 七夕快乐
+</footer>
+
+<script>
+const cards = [
+  {
+    img: "images/img1.png",
+    title: "相机造型 · 旋转式",
+    badges: ["旋转式", "续航 90min", "磁吸水洗刀头"],
+    text: "小巧的旋转式剃须刀，续航90分钟，刀头是可以水洗的磁吸设计，小红书很多推荐，相机外形刚好和贞贞喜欢摄影契合，图为用户实拍，个人感觉比卖家图好看一点（男生用品的商家都喜欢蓝紫炫酷风格的背景吗）",
+    reply: "果然，摄影人的直觉"
+  },
+  {
+    img: "images/img2.jpg",
+    title: "机甲设计 · 钢铁侠联名",
+    badges: ["机甲风", "续航 60min", "联名款"],
+    text: "抄贞贞作业的一款，机甲设计，炫酷哦，说起来它还有钢铁侠联名版，拍拍萌萌掉落样图，续航60分钟",
+    reply: "果然作业还是要抄贞贞的！"
+  },
+  {
+    img: "images/img3.jpg",
+    title: "简约派 · 热销榜第一",
+    badges: ["往复式", "续航 90min", "热销榜 No.1"],
+    text: "往复式，续航90分钟的热销榜第一名，感觉是很简约的设计，就是代言人还没我男朋友帅",
+    reply: "好眼光。虽然代言人没你帅，但刀是好刀。"
+  },
+  {
+    img: "images/img4.jpg",
+    title: "浅蓝色款 · 热销榜第一",
+    badges: ["往复式", "续航 90min", "浅蓝限定"],
+    text: "也是往复式，续航90分钟的热销榜第一名的不同颜色款，好像贞贞比较喜欢浅蓝色？代言人依旧是没我男朋友帅",
+    reply: "浅蓝色，猜中了。萌萌的用户画像从不失手。"
+  },
+  {
+    img: "images/img5.jpg",
+    title: "便携小巧 · 钢丝球克星",
+    badges: ["便携", "续航 120min"],
+    text: "小红书看到的李逵胡子推荐款（萌的天，真的好大一脸钢丝球），很小巧，续航120分钟，全身水洗",
+    reply: "李逵专用，胡茬怕怕～"
+  },
+  {
+    img: "images/img6.jpg",
+    title: "礼遇季热卖榜第一",
+    badges: ["续航 120min", "霸榜 12.75 天"],
+    text: "礼遇季热卖榜的第一名（类似于我是全中国最爱你的孙宇萌？），不过已经在榜首待了306h/24h=12.75天，应该还可以？续航120分钟",
+    reply: "它是热卖榜第一，我是爱你榜第一"
+  },
+  {
+    img: "images/img7.jpg",
+    title: "月亮与六便士联名",
+    badges: ["联名款", "续航 60min", "全身水洗", "礼遇季 No.3"],
+    text: "礼遇季热卖榜的第三名，文艺复古风，第一眼联想到那个诱惑了包法利夫人的法国贵族的鼻烟壶，惊鸿一瞥，可惜终究应该只是枕上黄粱，全身水洗，续航60分钟。ps：把月亮与六便士做营销卖点是哪个大聪明想的点子，主人公可是为了所谓明月抛妻弃子的诶！",
+    reply: "这一款吗？那好吧，那贞贞和六便士本小姐都要！"
+  },
+  {
+    img: "images/img8.jpg",
+    title: "小锤子 · 闪购急送",
+    badges: ["往复式", "续航 65min", "全身水洗", "好评榜 No.4"],
+    text: "天猫热销榜好评榜第四位选手，支持闪购急送深得萌心，往复式，看起来像个小锤子，刀如名，或许还能拿来锤钉子修东西？续航65分钟，全身水洗",
+    reply: "剃须修家两不误，实用主义者贞贞，已记录在案。"
+  },
+  {
+    img: "images/img9.jpg",
+    title: "对照组 · 测试集样本",
+    badges: ["热销榜 No.7", "仅供对比"],
+    text: "热销榜第七名，主要起对比作用（以及对贞贞喜好的测试集样本作用），亲爱的你一定不会喜欢它的对吧？",
+    reply: "？？？测试不通过。本异常结果已上报萌萌总部，请等待约谈。"
+  }
+];
+
+const grid = document.getElementById("grid");
+cards.forEach((c, i) => {
+  const el = document.createElement("div");
+  el.className = "card";
+  el.setAttribute("role", "button");
+  el.setAttribute("tabindex", "0");
+  el.setAttribute("aria-label", c.title + "，点击翻面查看点评");
+  el.innerHTML = `
+    <div class="card-inner">
+      <div class="tape"></div>
+      <div class="face front">
+        <div class="photo"><img src="${c.img}" alt="${c.title}" loading="lazy"></div>
+        <div class="caption">
+          <div class="title"><span class="no">No.${i + 1}</span>${c.title}</div>
+          <div class="badges">${c.badges.map((b, j) => `<span class="badge${j % 2 ? " alt" : ""}">${b}</span>`).join("")}</div>
+        </div>
+      </div>
+      <div class="face back">
+        <div class="stamp">萌萌锐评</div>
+        <div class="text">${c.text}</div>
+        <div class="flip-hint">再点一下翻回正面</div>
+      </div>
+    </div>`;
+  const flip = () => el.classList.toggle("flipped");
+  el.addEventListener("click", flip);
+  el.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); }
+  });
+  grid.appendChild(el);
+});
+
+const voteOptions = document.getElementById("voteOptions");
+const voteReply = document.getElementById("voteReply");
+const voteChoices = [
+  ...cards.map((c, i) => ({ label: `No.${i + 1} ${c.title}`, reply: c.reply })),
+  {
+    label: "No.10 萌萌",
+    special: true,
+    reply: "回答正确！奖品『萌萌本人』已按七夕档期发货，全球限量一份，不支持退换，请贞贞签收！"
+  }
+];
+voteChoices.forEach(choice => {
+  const btn = document.createElement("button");
+  btn.textContent = choice.label;
+  if (choice.special) btn.classList.add("special");
+  btn.addEventListener("click", () => {
+    voteOptions.querySelectorAll("button").forEach(b => b.classList.remove("picked"));
+    btn.classList.add("picked");
+    voteReply.classList.remove("show");
+    setTimeout(() => {
+      voteReply.innerHTML = `${choice.reply}<div class="vote-shot">（请把这个结果截图发给萌萌，完成最终提交）</div>`;
+      voteReply.classList.add("show");
+    }, 150);
+  });
+  voteOptions.appendChild(btn);
+});
+</script>
+
+</body>
+</html>
