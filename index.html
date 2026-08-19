@@ -282,7 +282,7 @@
 <header>
   <div class="date">2026 · 七夕特辑</div>
   <h1>萌萌牌 <span>·</span> 剃须刀甄选目录</h1>
-  <div class="hint">点击卡片翻面，查看萌萌锐评</div>
+  <div class="hint">点击卡片翻面，查看萌萌推荐</div>
 </header>
 
 <main class="grid" id="grid"></main>
@@ -309,35 +309,35 @@ const cards = [
   {
     img: "images/img2.jpg",
     title: "机甲设计 · 钢铁侠联名",
-    badges: ["机甲风", "续航 60min", "联名款"],
+    badges: ["机甲风", "续航 60min", "联名款", "全身水洗"],
     text: "抄贞贞作业的一款，机甲设计，炫酷哦，说起来它还有钢铁侠联名版，拍拍萌萌掉落样图，续航60分钟",
     reply: "果然作业还是要抄贞贞的！"
   },
   {
     img: "images/img3.jpg",
     title: "简约派 · 热销榜第一",
-    badges: ["往复式", "续航 90min", "热销榜 No.1"],
+    badges: ["往复式", "续航 90min", "热销榜 No.1", "全身水洗"],
     text: "往复式，续航90分钟的热销榜第一名，感觉是很简约的设计，就是代言人还没我男朋友帅",
     reply: "好眼光。虽然代言人没你帅，但刀是好刀。"
   },
   {
     img: "images/img4.jpg",
     title: "浅蓝色款 · 热销榜第一",
-    badges: ["往复式", "续航 90min", "浅蓝限定"],
+    badges: ["往复式", "续航 90min", "浅蓝限定", "全身水洗"],
     text: "也是往复式，续航90分钟的热销榜第一名的不同颜色款，好像贞贞比较喜欢浅蓝色？代言人依旧是没我男朋友帅",
     reply: "浅蓝色，猜中了。萌萌的用户画像从不失手。"
   },
   {
     img: "images/img5.jpg",
     title: "便携小巧 · 钢丝球克星",
-    badges: ["便携", "续航 120min"],
+    badges: ["便携", "续航 120min", "全身水洗"],
     text: "小红书看到的李逵胡子推荐款（萌的天，真的好大一脸钢丝球），很小巧，续航120分钟，全身水洗",
     reply: "李逵专用，胡茬怕怕～"
   },
   {
     img: "images/img6.jpg",
     title: "礼遇季热卖榜第一",
-    badges: ["续航 120min", "霸榜 12.75 天"],
+    badges: ["续航 120min", "霸榜 12.75 天", "全身水洗"],
     text: "礼遇季热卖榜的第一名（类似于我是全中国最爱你的孙宇萌？），不过已经在榜首待了306h/24h=12.75天，应该还可以？续航120分钟",
     reply: "它是热卖榜第一，我是爱你榜第一"
   },
@@ -358,7 +358,7 @@ const cards = [
   {
     img: "images/img9.jpg",
     title: "飞利浦旋转式",
-    badges: ["热销榜 No.7", "仅供对比"],
+    badges: ["热销榜 No.7", "全身水洗"],
     text: "热销榜第七名，主要起对比作用（以及对贞贞喜好的测试集样本作用），亲爱的你一定不会喜欢它的对吧？",
     reply: "？？？测试不通过。本异常结果已上报萌萌总部，请等待约谈。"
   }
@@ -382,7 +382,7 @@ cards.forEach((c, i) => {
         </div>
       </div>
       <div class="face back">
-        <div class="stamp">萌萌锐评</div>
+        <div class="stamp">萌萌推荐</div>
         <div class="text">${c.text}</div>
         <div class="flip-hint">再点一下翻回正面</div>
       </div>
